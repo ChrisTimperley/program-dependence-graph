@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# This script creates a portable Docker volume for this PDG pass
+#
+set -eu
+HERE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+IMAGE_TO_VOLUME="${HERE_DIR}/image_to_volume"
+DOCKER_ORG="christimperley"
+DOCKER_IMAGE="${DOCKER_ORG}/llvmpdg"
+
+pushd "${HERE_DIR}"
+docker build -f Dockerfile.pdg ..
+
+${IMAGE_TO_VOLUME} "${DOCKER_IMAGE}" llvmpdg_opt /opt/llvmpdg
