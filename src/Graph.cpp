@@ -52,6 +52,7 @@ void pdg::GenericGraph::dumpGraph()
   }
 }
 
+
 // ===== Graph Traversal =====
 // DFS search
 bool pdg::GenericGraph::canReach(pdg::Node &src, pdg::Node &dst)
@@ -60,6 +61,26 @@ bool pdg::GenericGraph::canReach(pdg::Node &src, pdg::Node &dst)
   if (canReach(src, dst, {}))
     return true;
   return false;
+}
+
+pdg::GenericGraph::NodeSet pdg::GenericGraph::getAncestors(pdg::Node &src) {
+  std::set<Node *> ancestors;
+  std::stack<Node *> node_stack;
+  node_stack.push(&src);
+  while (!node_stack.empty())
+  {
+    auto current_node = node_stack.top();
+    node_stack.pop();
+    if (ancestors.find(current_node) != ancestors.end())
+      continue;
+    ancestors.insert(current_node);
+    for (auto in_edge : current_node->getInEdgeSet())
+    {
+      node_stack.push(in_edge->getSrcNode());
+    }
+  }
+  return ancestors;
+
 }
 
 bool pdg::GenericGraph::canReach(pdg::Node &src, pdg::Node &dst, std::set<EdgeType> exclude_edge_types)
@@ -364,4 +385,22 @@ void pdg::ProgramGraph::buildGlobalAnnotationNodes(Module &M)
       }
     }
   }
+}
+
+
+
+std::set<llvm::Value *> pdg::ProgramGraph::getAncestors(llvm::Value &v){
+  std::set<llvm::Value *> ancestry;
+  Node *n = getNode(v);
+  if (n)
+  {
+    pdg::GenericGraph::NodeSet A=pdg::GenericGraph::getAncestors(*n);
+    for (auto a_iter = A.begin(); a_iter != A.end(); a_iter++)
+    {
+      auto a = *a_iter;
+      ancestry.insert(a->getValue()); 
+    }
+  }
+  return ancestry;
+
 }
