@@ -1,0 +1,21 @@
+ARG INSTALL_TO=/opt/llvmpdg
+FROM christimperley/llvmsupermutate:builder AS builder
+COPY --from=christimperley/llvmsupermutate:llvm /opt/llvm11/ /opt/llvm11/
+WORKDIR /tmp/llvmpdg
+COPY . .
+RUN mkdir -p "${INSTALL_TO}/lib" \
+ && mkdir build \
+ && cd build \
+ && cmake \
+      -G Ninja \
+      -DCMAKE_CXX_COMPILER=/opt/llvm11/bin/clang++ \
+      -DCMAKE_LINKER=/opt/llvm11/bin/lld \
+      -DCMAKE_INSTALL_PREFIX="${INSTALL_TO}" \
+      -DCMAKE_CXX_FLAGS="-std=c++14 -I/opt/llvm11/include -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS" \
+      .. \
+ && ninja \
+ && mv libpdg.so "${INSTALL_TO}/lib" \
+ && rm -rf /tmp/*
+
+FROM christimperley/llvmsupermutate:builder AS install
+COPY --from=builder "${INSTALL_TO}" "${INSTALL_TO}"
