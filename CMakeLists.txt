@@ -15,6 +15,8 @@ include_directories(${LLVM_INCLUDE_DIRS})
 link_directories(${LLVM_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
+include(GNUInstallDirs)
+
 # Use the same C++ standard as LLVM does
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 
@@ -47,6 +49,11 @@ add_library(pdg MODULE
 )
 
 add_library(pdg_shared STATIC ${SOURCES})
+
+install(TARGETS pdg
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+)
 
 #
 # Turn on C++11, turn off C++ RTTI.
