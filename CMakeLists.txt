@@ -48,7 +48,7 @@ add_library(pdg MODULE
     ${SOURCES}
 )
 
-add_library(pdg_shared STATIC ${SOURCES})
+add_library(pdg_shared SHARED ${SOURCES})
 
 install(TARGETS pdg
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
