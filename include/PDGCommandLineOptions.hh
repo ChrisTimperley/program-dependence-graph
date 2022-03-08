@@ -3,9 +3,9 @@
 
 namespace pdg
 {
-  extern bool DOTONLYDDG;
-  extern bool DOTONLYCDG;
-  extern bool DEBUG;
+  // extern bool DOTONLYDDG;
+  // extern bool DOTONLYCDG;
+  // extern bool DEBUG;
 }
 
 #endif

@@ -5,10 +5,6 @@ using namespace llvm;
 
 char pdg::ProgramDependencyGraph::ID = 0;
 
-bool pdg::DEBUG;
-
-cl::opt<bool, true> DEBUG("pdg-debug", cl::desc("print debug messages"), cl::value_desc("print debug messages"), cl::location(pdg::DEBUG), cl::init(false));
-
 void pdg::ProgramDependencyGraph::getAnalysisUsage(AnalysisUsage &AU) const
 {
   AU.addRequired<DataDependencyGraph>();
@@ -49,8 +45,8 @@ bool pdg::ProgramDependencyGraph::runOnModule(Module &M)
   errs() << "building PDG takes: " <<  duration.count() << "\n";
   errs() << "PDG Node size: " << _PDG->numNode() << "\n";
 
-  if (DEBUG)
-    _PDG->dumpGraph();
+  // if (DEBUG)
+  //   _PDG->dumpGraph();
 
   return false;
 }

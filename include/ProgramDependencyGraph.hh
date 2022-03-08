@@ -8,6 +8,8 @@
 
 namespace pdg
 {
+  // bool DEBUG;
+
   class ProgramDependencyGraph : public llvm::ModulePass
   {
     public:

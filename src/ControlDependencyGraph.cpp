@@ -76,5 +76,3 @@ void pdg::ControlDependencyGraph::getAnalysisUsage(AnalysisUsage &AU) const
   AU.setPreservesAll();
 }
 
-static RegisterPass<pdg::ControlDependencyGraph>
-    CDG("cdg", "Control Dependency Graph Construction", false, true);
