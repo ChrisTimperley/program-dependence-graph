@@ -44,13 +44,14 @@ file(GLOB SOURCES "src/*.cpp")
 file(GLOB HEADERS "include/*.hh")
 
 add_library(pdg MODULE
-    ${HEADERS}
-    ${SOURCES}
+  ${HEADERS}
+  ${SOURCES}
+  src/Register.cc
 )
 
 add_library(pdg_shared SHARED ${SOURCES})
 
-install(TARGETS pdg
+install(TARGETS pdg pdg_shared
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )

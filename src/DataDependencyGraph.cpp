@@ -124,6 +124,3 @@ AliasResult pdg::DataDependencyGraph::queryAliasUnderApproximate(Value &v1, Valu
     AU.addRequired<MemoryDependenceWrapperPass>();
     AU.setPreservesAll();
   }
-
-  static RegisterPass<pdg::DataDependencyGraph>
-      DDG("ddg", "Data Dependency Graph Construction", false, true);
