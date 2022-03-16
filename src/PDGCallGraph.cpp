@@ -86,6 +86,12 @@ bool pdg::PDGCallGraph::isTypeEqual(Type& t1, Type &t2)
 
   if (!t1_pointed_ty->isStructTy() || !t2_pointed_ty->isStructTy())
     return false;
+
+  auto t1_struct_ty = llvm::dyn_cast<llvm::StructType>(t1_pointed_ty);
+  auto t2_struct_ty = llvm::dyn_cast<llvm::StructType>(t2_pointed_ty);
+
+  if (t1_struct_ty->isLiteral() || t2_struct_ty->isLiteral())
+    return false;
   
   auto t1_name = pdgutils::stripVersionTag(t1_pointed_ty->getStructName().str());
   auto t2_name = pdgutils::stripVersionTag(t2_pointed_ty->getStructName().str());
